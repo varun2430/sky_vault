@@ -49,6 +49,8 @@ export const login = async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     user = user.toObject();
     delete user.password;
+    delete user.createdAt;
+    delete user.updatedAt;
     res.status(200).json({ token, user });
   } catch (err) {
     res.status(500).json({ error: err.message });

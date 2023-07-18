@@ -1,13 +1,23 @@
 import File from "../models/File.js";
 
+/* GET FILE */
+export const getFiles = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const files = await File.find({ userId: userId });
+    res.status(202).json(files);
+  } catch (err) {
+    res.status(409).json({ error: err.message });
+  }
+};
+
 /* UPLOAD FILE */
 export const uploadFile = async (req, res) => {
   try {
-    const { userId, name, extension, size } = req.body;
+    const { userId, name, size } = req.body;
     const newFile = new File({
       userId,
       name,
-      extension,
       size,
     });
 
