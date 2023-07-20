@@ -34,21 +34,40 @@ export default function File(props) {
     URL.revokeObjectURL(url);
   };
 
+  const formatDateTime = (dateTime) => {
+    const parsedDate = new Date(dateTime);
+    const formattedDate = parsedDate.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+    const formattedTime = parsedDate.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+    });
+    return `${formattedDate} ${formattedTime}`;
+  };
+
   return (
     <>
-      <div className="flex bg-gray-200 hover:bg-gray-300">
-        <div className="w-3/6 p-2 truncate">{props.name}</div>
-        <div className="flex justify-center items-center p-2 w-1/6 ">
+      <div className="flex bg-slate-700 hover:bg-slate-600 bg-opacity-70 rounded">
+        <div className="p-2 truncate text-sm text-slate-100 w-full">
+          {props.name}
+        </div>
+        <div className="hidden md:flex md:justify-start md:items-center truncate text-sm text-slate-100 p-2 w-72">
+          {formatDateTime(props.createdAt)}
+        </div>
+        <div className="flex justify-center items-center truncate text-sm text-slate-100 p-2 w-36">
           {props.size / 1000} KB
         </div>
-        <div className="flex justify-center items-center p-2 w-1/6 ">
+        <div className="flex justify-center items-center p-2 w-14">
           <button onClick={handleFileDownload}>
-            <i className="fa-solid fa-download"></i>
+            <i className="fa-solid fa-download text-green-500"></i>
           </button>
         </div>
-        <div className="flex justify-center items-center p-2 w-1/6 ">
+        <div className="flex justify-center items-center p-2 w-14">
           <button onClick={handleFileDelete}>
-            <i className="fa-solid fa-trash"></i>
+            <i className="fa-solid fa-trash text-red-500"></i>
           </button>
         </div>
       </div>

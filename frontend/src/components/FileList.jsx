@@ -65,7 +65,7 @@ export default function FileList() {
           onClick={(e) => {
             fileInputRef.current.click();
           }}
-          className=" border-2 border-blue-700 bg-blue-700 text-white py-1 rounded-md hover:bg-transparent hover:text-blue-700 font-semibold"
+          className=" border-2 border-blue-700 bg-blue-700 text-slate-100 py-1 rounded-md hover:bg-transparent hover:text-slate-100 font-semibold"
         >
           Upload
         </button>
@@ -77,12 +77,13 @@ export default function FileList() {
             searchField === ""
           );
         })
-        .map(({ _id, name, objectKey, size, createdAt }) => (
+        .map(({ _id, name, objectKey, createdAt, size }) => (
           <File
             key={_id}
             id={_id}
-            objectKey={objectKey}
             name={name}
+            objectKey={objectKey}
+            createdAt={createdAt}
             size={size}
           />
         ))}

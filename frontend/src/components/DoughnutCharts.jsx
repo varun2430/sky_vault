@@ -14,7 +14,7 @@ export default function DoughnutCharts() {
       {
         label: "MB",
         data: [filesSize / 1000, 16 - filesSize / 1000],
-        backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(75, 192, 192, 0.2)"],
+        backgroundColor: ["rgba(255, 99, 132, 0.6)", "rgba(75, 192, 192, 0.6)"],
         borderColor: ["rgba(255, 99, 132, 1)", "rgba(75, 192, 192, 1)"],
         borderWidth: 1,
       },
@@ -26,7 +26,7 @@ export default function DoughnutCharts() {
       {
         label: "Files",
         data: [filesCount, 10 - filesCount],
-        backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(75, 192, 192, 0.2)"],
+        backgroundColor: ["rgba(255, 99, 132, 0.6)", "rgba(75, 192, 192, 0.6)"],
         borderColor: ["rgba(255, 99, 132, 1)", "rgba(75, 192, 192, 1)"],
         borderWidth: 1,
       },
@@ -37,8 +37,8 @@ export default function DoughnutCharts() {
     plugins: {
       title: {
         display: true,
-        text: "Storage Used",
-        color: "black",
+        text: "Storage Used (Max: 16 MB)",
+        color: "rgb(241 245 249)",
         font: {
           size: 16,
         },
@@ -47,7 +47,7 @@ export default function DoughnutCharts() {
         display: true,
         position: "bottom",
         labels: {
-          color: "rgb(0, 0, 0)",
+          color: "rgb(241 245 249)",
         },
       },
     },
@@ -59,8 +59,8 @@ export default function DoughnutCharts() {
     plugins: {
       title: {
         display: true,
-        text: "File Count",
-        color: "black",
+        text: "File Count (Max: 10 Files)",
+        color: "rgb(241 245 249)",
         font: {
           size: 16,
         },
@@ -69,7 +69,7 @@ export default function DoughnutCharts() {
         display: true,
         position: "bottom",
         labels: {
-          color: "rgb(0, 0, 0)",
+          color: "rgb(241 245 249)",
         },
       },
     },
@@ -80,10 +80,10 @@ export default function DoughnutCharts() {
   return (
     <>
       <div className="flex-none grid grid-cols-1 md:grid-cols-2">
-        <div className=" m-1 md:m-2 bg-blue-200 h-44 md:h-72">
+        <div className=" mx-6 my-3 md:ml-8 md:mr-4 md:my-4 h-44 md:h-72 bg-slate-700 bg-opacity-70 rounded-lg">
           <Doughnut data={sizeData} options={sizeOptions} />
         </div>
-        <div className=" m-1 md:m-2 bg-blue-200 h-44 md:h-72">
+        <div className=" mx-6 my-3 md:ml-4 md:mr-8 md:my-4 h-44 md:h-72 bg-slate-700 bg-opacity-70 rounded-lg">
           <Doughnut data={countData} options={countOptions} />
         </div>
       </div>
