@@ -10,6 +10,10 @@ const fileSchema = Schema(
       type: String,
       required: true,
     },
+    objectKey: {
+      type: String,
+      required: true,
+    },
     size: {
       type: Number,
       required: true,

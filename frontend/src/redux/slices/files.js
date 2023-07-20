@@ -13,7 +13,7 @@ export const filesSlice = createSlice({
     setFiles: (state, action) => {
       state.files = action.payload.files;
       state.filesSize = state.files.reduce((accumulator, obj) => {
-        return accumulator + obj.size;
+        return accumulator + obj.size / 1000;
       }, 0);
       state.filesCount = state.files.length;
     },

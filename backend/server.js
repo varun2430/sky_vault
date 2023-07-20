@@ -1,10 +1,14 @@
 import express from "express";
+import { S3Client } from "@aws-sdk/client-s3";
 import mongoose from "mongoose";
-import dotenv from "dotenv";
+import multer from "multer";
 import cors from "cors";
+import dotenv from "dotenv";
 import authRoutes from "./routes/auth.js";
 import usersRoutes from "./routes/users.js";
 import filesRoutes from "./routes/file.js";
+import { uploadFile } from "./controllers/files.js";
+import { verifyToken } from "./middleware/auth.js";
 
 dotenv.config();
 
@@ -13,6 +17,25 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 4 * 1024 * 1024,
+  },
+});
+
+export const s3Client = new S3Client({
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY,
+  },
+});
+
+/* ROUTES WITH FILES */
+app.post("/api/files/:userId", verifyToken, upload.single("file"), uploadFile);
+
+/* ROUTES */
 app.use("/api/auth", authRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/files", filesRoutes);

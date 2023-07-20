@@ -15,13 +15,8 @@ export const getFiles = async (userId, token) => {
   return response.data;
 };
 
-export const uploadFile = async (userId, token, file) => {
-  const reqBody = {
-    userId: userId,
-    name: file.name,
-    size: file.size,
-  };
-  const response = await axios.post(API_URL + "/upload", reqBody, {
+export const getObjectUrl = async (objectKey, token) => {
+  const response = await axios.get(API_URL + `/aws/${objectKey}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -29,8 +24,18 @@ export const uploadFile = async (userId, token, file) => {
   return response.data;
 };
 
+export const uploadFile = async (userId, token, data) => {
+  const response = await axios.post(API_URL + `/${userId}`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response.data;
+};
+
 export const deleteFile = async (fileId, token) => {
-  const response = await axios.delete(API_URL + `/delete/${fileId}`, {
+  const response = await axios.delete(API_URL + `/${fileId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

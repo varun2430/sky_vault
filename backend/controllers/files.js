@@ -1,11 +1,35 @@
+import {
+  DeleteObjectCommand,
+  GetObjectCommand,
+  PutObjectCommand,
+} from "@aws-sdk/client-s3";
+import { v4 as uuidv4 } from "uuid";
+import { s3Client } from "../server.js";
 import File from "../models/File.js";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 /* GET FILE */
 export const getFiles = async (req, res) => {
   try {
     const { userId } = req.params;
     const files = await File.find({ userId: userId });
-    res.status(202).json(files);
+    res.status(200).json(files);
+  } catch (err) {
+    res.status(409).json({ error: err.message });
+  }
+};
+
+/* GET S3 OBJECT */
+export const getUrl = async (req, res) => {
+  try {
+    const { objectKey } = req.params;
+    const params = {
+      Bucket: process.env.S3_BUCKET,
+      Key: objectKey,
+    };
+    const command = new GetObjectCommand(params);
+    const url = await getSignedUrl(s3Client, command);
+    res.status(200).json({ url: url });
   } catch (err) {
     res.status(409).json({ error: err.message });
   }
@@ -14,13 +38,22 @@ export const getFiles = async (req, res) => {
 /* UPLOAD FILE */
 export const uploadFile = async (req, res) => {
   try {
-    const { userId, name, size } = req.body;
+    const { userId } = req.params;
+    const timestamp = new Date().getTime();
+    const objectKey = `${timestamp}-${uuidv4().replace(/-/g, "")}`;
+    const params = {
+      Bucket: process.env.S3_BUCKET,
+      Key: objectKey,
+      Body: req.file.buffer,
+    };
+    const command = new PutObjectCommand(params);
+    const response = await s3Client.send(command);
     const newFile = new File({
       userId,
-      name,
-      size,
+      name: req.file.originalname,
+      objectKey,
+      size: req.file.size,
     });
-
     await newFile.save();
     const files = await File.find({ userId: userId });
     res.status(201).json(files);
@@ -33,7 +66,13 @@ export const uploadFile = async (req, res) => {
 export const deleteFile = async (req, res) => {
   try {
     const { fileId } = req.params;
-
+    const file = await File.findOne({ _id: fileId });
+    const params = {
+      Bucket: process.env.S3_BUCKET,
+      Key: file.objectKey,
+    };
+    const command = new DeleteObjectCommand(params);
+    const response = await s3Client.send(command);
     await File.deleteOne({ _id: fileId });
     res.status(200).json({ id: fileId });
   } catch (err) {
