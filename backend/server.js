@@ -20,7 +20,7 @@ app.use(cors());
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 4 * 1024 * 1024,
+    fileSize: 16 * 1024 * 1024,
   },
 });
 

@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Formik, Field } from "formik";
 import * as yup from "yup";
+import { toast } from "react-toastify";
 import { setLogin } from "../redux/slices/auth";
 import { login } from "../features/authService";
 
@@ -12,7 +13,10 @@ const initialValuesLogin = {
 
 const loginSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email required"),
-  password: yup.string().required("Password required"),
+  password: yup
+    .string()
+    .required("Password required")
+    .min(6, "Password should have a minimum of 6 characters."),
 });
 
 export default function Login() {
@@ -20,30 +24,46 @@ export default function Login() {
   const dispatch = useDispatch();
 
   const handleFormSubmit = async (values, onSubmitProps) => {
-    const data = await login(values);
-
-    if (data) {
-      dispatch(
-        setLogin({
-          user: data.user,
-          token: data.token,
-        })
-      );
-      navigate("/");
+    try {
+      const resData = await login(values);
+      if (resData) {
+        dispatch(
+          setLogin({
+            user: resData.user,
+            token: resData.token,
+          })
+        );
+        navigate("/");
+      }
+    } catch (err) {
+      toast.error(err.response.data.error, {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } finally {
+      onSubmitProps.resetForm();
     }
   };
 
   return (
     <>
-      <div className="flex flex-col justify-center items-center h-screen w-screen bg-blue-800">
-        <div className="w-80 lg:w-96 p-6 bg-slate-200 rounded-md">
-          <h1 className="text-2xl font-semibold">Login</h1>
-          <p className="mt-1 text-sm">Login to access your files</p>
+      <div className="flex flex-col justify-center items-center h-screen w-screen">
+        <div className="w-80 md:w-96 p-6 bg-slate-700 bg-opacity-70 rounded-md">
+          <h1 className="text-2xl text-slate-100 font-semibold">Login</h1>
+          <p className="mt-1 text-sm text-slate-100">
+            Login to access your files
+          </p>
 
           <Formik
-            onSubmit={handleFormSubmit}
             initialValues={initialValuesLogin}
             validationSchema={loginSchema}
+            onSubmit={handleFormSubmit}
           >
             {({
               values,
@@ -57,36 +77,42 @@ export default function Login() {
             }) => (
               <form onSubmit={handleSubmit}>
                 <label className="block mt-3" htmlFor="email">
-                  Email
+                  <p className=" text-slate-100">Email</p>
+                  <Field
+                    className=" border-2 px-2 py-1 w-full text-base rounded-md focus:outline-none focus:ring-0 focus:border-blue-700 placeholder:text-gray-700 bg-gray-300"
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter email..."
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={values.email}
+                    required
+                  ></Field>
                 </label>
-                <Field
-                  className=" border-2 px-2 py-1 w-full text-base rounded-md focus:outline-none focus:ring-0 focus:border-blue-400"
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="Enter email..."
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.email}
-                  required
-                ></Field>
-                <label className=" block mt-1" htmlFor="password">
-                  Password
+                {errors.email && (
+                  <p className="p-1 text-sm text-red-500">{errors.email}</p>
+                )}
+                <label className=" block mt-2" htmlFor="password">
+                  <p className="text-slate-100">Password</p>
+                  <Field
+                    className=" border-2 px-2 py-1 w-full text-base rounded-md focus:outline-none focus:ring-0 focus:border-blue-700 placeholder:text-gray-700 bg-gray-300"
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter password..."
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={values.password}
+                    required
+                  ></Field>
                 </label>
-                <Field
-                  className=" border-2 px-2 py-1 w-full text-base rounded-md focus:outline-none focus:ring-0 focus:border-blue-400"
-                  type="password"
-                  id="password"
-                  name="password"
-                  placeholder="Enter password..."
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.password}
-                  required
-                ></Field>
+                {errors.password && (
+                  <p className="p-1 text-sm text-red-500">{errors.password}</p>
+                )}
                 <div className="mt-5">
                   <button
-                    className="border-2 border-blue-700 bg-blue-700 text-white py-1 w-full rounded-md hover:bg-transparent hover:text-blue-700 font-semibold"
+                    className="border-2 border-blue-700 bg-blue-800 text-slate-100 py-1 w-full rounded-md hover:bg-transparent font-semibold"
                     type="submit"
                   >
                     <i className="fa-solid fa-right-to-bracket"></i>
@@ -97,10 +123,17 @@ export default function Login() {
             )}
           </Formik>
         </div>
-        <div className="mt-2">
+        <div className="mt-4">
           <p className=" text-base text-slate-100">
-            Don't have an account{" "}
-            <span className=" text-purple-500">Sign up</span>
+            Don't have an account?{" "}
+            <button
+              onClick={(e) => {
+                navigate("/register");
+              }}
+              className=" text-purple-500"
+            >
+              Sign up
+            </button>
           </p>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
-import { getFiles, deleteFile, getObjectUrl } from "../features/fileService";
+import { getFiles, downloadFile, deleteFile } from "../features/fileService";
 import { setFiles } from "../redux/slices/files";
-import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function File(props) {
   const userId = useSelector((state) => state.auth.user._id);
@@ -9,7 +9,11 @@ export default function File(props) {
   const dispatch = useDispatch();
 
   const handleFileDelete = async () => {
-    const resData = await deleteFile(props.id, token);
+    const resData = await toast.promise(deleteFile(props.id, token), {
+      pending: "Deleting file...",
+      success: "File deleted successfully.",
+      error: "Failed to delete file.",
+    });
     if (resData) {
       const resData = await getFiles(userId, token);
       dispatch(setFiles({ files: resData }));
@@ -17,21 +21,11 @@ export default function File(props) {
   };
 
   const handleFileDownload = async () => {
-    const resData = await getObjectUrl(props.objectKey, token);
-    const objectUrl = resData.url;
-    const response = await axios({
-      url: objectUrl,
-      method: "GET",
-      responseType: "blob",
+    await toast.promise(downloadFile(props.objectKey, props.name, token), {
+      pending: "Downloading file...",
+      success: "File downloaded successfully.",
+      error: "Failed to download file.",
     });
-    const url = URL.createObjectURL(new Blob([response.data]));
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", props.name);
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    URL.revokeObjectURL(url);
   };
 
   const formatDateTime = (dateTime) => {
@@ -51,21 +45,23 @@ export default function File(props) {
   return (
     <>
       <div className="flex bg-slate-700 hover:bg-slate-600 bg-opacity-70 rounded">
-        <div className="p-2 truncate text-sm text-slate-100 w-full">
+        <div className="flex justify-start items-center p-2 truncate text-sm text-slate-100 w-full">
           {props.name}
         </div>
-        <div className="hidden md:flex md:justify-start md:items-center truncate text-sm text-slate-100 p-2 w-72">
+        <div className="hidden md:flex md:justify-start md:items-center truncate text-sm text-slate-100 p-2 w-64">
           {formatDateTime(props.createdAt)}
         </div>
         <div className="flex justify-center items-center truncate text-sm text-slate-100 p-2 w-36">
-          {props.size / 1000} KB
+          {props.size / 1000 < 1000
+            ? `${(props.size / 1000).toFixed(1)} KB`
+            : `${(props.size / 1000000).toFixed(1)} MB`}
         </div>
-        <div className="flex justify-center items-center p-2 w-14">
+        <div className="flex justify-center items-center p-2 w-16">
           <button onClick={handleFileDownload}>
             <i className="fa-solid fa-download text-green-500"></i>
           </button>
         </div>
-        <div className="flex justify-center items-center p-2 w-14">
+        <div className="flex justify-center items-center p-2 w-16">
           <button onClick={handleFileDelete}>
             <i className="fa-solid fa-trash text-red-500"></i>
           </button>

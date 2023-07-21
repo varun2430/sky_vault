@@ -13,7 +13,7 @@ export default function DoughnutCharts() {
     datasets: [
       {
         label: "MB",
-        data: [filesSize / 1000, 16 - filesSize / 1000],
+        data: [filesSize / 1000, 8 - filesSize / 1000],
         backgroundColor: ["rgba(255, 99, 132, 0.6)", "rgba(75, 192, 192, 0.6)"],
         borderColor: ["rgba(255, 99, 132, 1)", "rgba(75, 192, 192, 1)"],
         borderWidth: 1,
@@ -37,7 +37,7 @@ export default function DoughnutCharts() {
     plugins: {
       title: {
         display: true,
-        text: "Storage Used (Max: 16 MB)",
+        text: "Storage Used (Max: 8 MB)",
         color: "rgb(241 245 249)",
         font: {
           size: 16,

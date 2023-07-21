@@ -10,6 +10,7 @@
 
 body {
   background-image: url("../public/background.jpg");
+  background-position: left;
   background-size: cover;
   background-repeat: no-repeat;
   height: 100%;

@@ -1,7 +1,11 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setLogout } from "../redux/slices/auth";
 
 export default function Navbar() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const isAuth = Boolean(useSelector((state) => state.auth.token));
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -53,11 +57,17 @@ export default function Navbar() {
             } w-full md:block md:w-auto`}
             id="navbar-default"
           >
-            <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            <ul className="font-medium flex flex-col p-1 md:p-0 mt-2 border rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0  bg-gray-800 md:bg-gray-900 border-gray-700">
               {isAuth ? (
                 <>
                   <li>
-                    <button className="text-lg font-semibold text-slate-100 hover:text-blue-800 p-1">
+                    <button
+                      onClick={(e) => {
+                        dispatch(setLogout());
+                        navigate("/");
+                      }}
+                      className="text-lg font-semibold text-slate-100 hover:text-blue-800 p-1"
+                    >
                       Log Out
                     </button>
                   </li>
