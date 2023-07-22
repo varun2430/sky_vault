@@ -1,12 +1,12 @@
 import {
-  DeleteObjectCommand,
   GetObjectCommand,
   PutObjectCommand,
+  DeleteObjectCommand,
 } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { v4 as uuidv4 } from "uuid";
 import { s3Client } from "../server.js";
 import File from "../models/File.js";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 /* GET FILE */
 export const getFiles = async (req, res) => {
@@ -44,15 +44,15 @@ export const uploadFile = async (req, res) => {
     const params = {
       Bucket: process.env.S3_BUCKET,
       Key: objectKey,
-      Body: req.file.buffer,
+      Body: req.body.file,
     };
     const command = new PutObjectCommand(params);
     const response = await s3Client.send(command);
     const newFile = new File({
       userId,
-      name: req.file.originalname,
+      name: req.body.name,
       objectKey,
-      size: req.file.size,
+      size: req.body.size,
     });
     await newFile.save();
     const files = await File.find({ userId: userId });

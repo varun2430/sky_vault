@@ -6,26 +6,38 @@ import { toast } from "react-toastify";
 export default function File(props) {
   const userId = useSelector((state) => state.auth.user._id);
   const token = useSelector((state) => state.auth.token);
+  const encryption_key = useSelector((state) => state.auth.encryption_key);
   const dispatch = useDispatch();
 
   const handleFileDelete = async () => {
-    const resData = await toast.promise(deleteFile(props.id, token), {
-      pending: "Deleting file...",
-      success: "File deleted successfully.",
-      error: "Failed to delete file.",
-    });
-    if (resData) {
-      const resData = await getFiles(userId, token);
-      dispatch(setFiles({ files: resData }));
+    try {
+      const resData = await toast.promise(deleteFile(props.id, token), {
+        pending: "Deleting file...",
+        success: "File deleted successfully.",
+        error: "Failed to delete file.",
+      });
+      if (resData) {
+        const resData = await getFiles(userId, token);
+        dispatch(setFiles({ files: resData }));
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
   const handleFileDownload = async () => {
-    await toast.promise(downloadFile(props.objectKey, props.name, token), {
-      pending: "Downloading file...",
-      success: "File downloaded successfully.",
-      error: "Failed to download file.",
-    });
+    try {
+      await toast.promise(
+        downloadFile(props.objectKey, props.name, token, encryption_key),
+        {
+          pending: "Downloading file...",
+          success: "File downloaded successfully.",
+          error: "Failed to download file.",
+        }
+      );
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const formatDateTime = (dateTime) => {

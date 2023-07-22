@@ -9,6 +9,9 @@ export default function FileList() {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.user._id);
   const token = useSelector((state) => state.auth.token);
+  const encryption_key = useSelector((state) => state.auth.encryption_key);
+  const filesSize = useSelector((state) => state.files.filesSize);
+  const filesCount = useSelector((state) => state.files.filesCount);
   const files = useSelector((state) => state.files.files);
   const [searchField, setSearchField] = useState("");
   const fileInputRef = useRef(null);
@@ -23,13 +26,46 @@ export default function FileList() {
   };
 
   const handleFileChange = async (event) => {
-    const file = event.target.files[0];
-    const resData = await toast.promise(uploadFile(userId, file, token), {
-      pending: "Uploading file...",
-      success: "File uploaded successfully.",
-      error: "Failed to upload file.",
-    });
-    dispatch(setFiles({ files: resData }));
+    try {
+      const file = event.target.files[0];
+      if (filesSize / 1000 + file.size / 1000000 > 8) {
+        toast.error("File storage limit reached!", {
+          position: "bottom-center",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        return;
+      }
+      if (filesCount + 1 > 10) {
+        toast.error("File count limit reached!", {
+          position: "bottom-center",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        return;
+      }
+      const resData = await toast.promise(
+        uploadFile(userId, file, token, encryption_key),
+        {
+          pending: "Uploading file...",
+          success: "File uploaded successfully.",
+          error: "Failed to upload file.",
+        }
+      );
+      dispatch(setFiles({ files: resData }));
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -74,6 +110,7 @@ export default function FileList() {
                 searchField === ""
               );
             })
+            .reverse()
             .map(({ _id, name, objectKey, createdAt, size }) => (
               <File
                 key={_id}

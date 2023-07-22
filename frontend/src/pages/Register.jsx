@@ -11,25 +11,30 @@ const initialValuesLogin = {
   email: "",
   password: "",
   confirm: "",
+  encryption_key: "",
 };
 
 const loginSchema = yup.object().shape({
   username: yup
     .string()
-    .required("Username required")
+    .required("Username required.")
     .max(50, "Username can have a maximum of 50 characters."),
   email: yup
     .string()
-    .required("Email required")
-    .email("Invalid email")
+    .required("Email required.")
+    .email("Invalid email.")
     .max(50, "Email can have a maximum of 50 characters."),
   password: yup
     .string()
-    .required("Password required")
+    .required("Password required.")
     .min(6, "Password should have a minimum of 6 characters."),
   confirm: yup
     .string()
-    .oneOf([yup.ref("password"), null], "Must match password field value"),
+    .oneOf([yup.ref("password"), null], "Must match password field value."),
+  encryption_key: yup
+    .string()
+    .required("Encryption key required.")
+    .length(32, "Encryption key must be exactly 32 characters."),
 });
 
 export default function Register() {
@@ -159,6 +164,25 @@ export default function Register() {
                 </label>
                 {errors.confirm && (
                   <p className="p-1 text-sm text-red-500">{errors.confirm}</p>
+                )}
+                <label className=" block mt-2" htmlFor="encryption_key">
+                  <p className="text-slate-100">Encryption key</p>
+                  <Field
+                    className=" border-2 px-2 py-1 w-full text-base rounded-md focus:outline-none focus:ring-0 focus:border-blue-700 placeholder:text-gray-700 bg-gray-300"
+                    type="password"
+                    id="encryption_key"
+                    name="encryption_key"
+                    placeholder="Enter encryption key..."
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={values.encryption_key}
+                    required
+                  ></Field>
+                </label>
+                {errors.encryption_key && (
+                  <p className="p-1 text-sm text-red-500">
+                    {errors.encryption_key}
+                  </p>
                 )}
                 <div className="mt-5">
                   <button

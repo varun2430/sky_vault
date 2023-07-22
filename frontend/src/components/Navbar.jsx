@@ -17,11 +17,7 @@ export default function Navbar() {
       <nav className="bg-gray-900">
         <div className="flex flex-wrap items-center justify-between mx-auto p-2 md:p-3">
           <button className="flex items-center">
-            <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-8 mr-3"
-              alt="Flowbite Logo"
-            />
+            <img src="logo.png" className="h-8 mr-3" alt="SkyVault Logo" />
             <span className="self-center text-2xl font-semibold whitespace-nowrap text-slate-100">
               SkyVault
             </span>
