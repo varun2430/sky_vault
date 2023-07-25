@@ -24,7 +24,7 @@ const loginSchema = yup.object().shape({
     .length(32, "Encryption key must be exactly 32 characters."),
 });
 
-export default function Login() {
+const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -39,7 +39,7 @@ export default function Login() {
             encryption_key: values.encryption_key,
           })
         );
-        navigate("/");
+        navigate("/dashboard");
       }
     } catch (err) {
       toast.error(err.response.data.error, {
@@ -59,8 +59,8 @@ export default function Login() {
 
   return (
     <>
-      <div className="flex flex-col justify-center items-center h-screen w-screen">
-        <div className="w-80 md:w-96 p-6 bg-slate-700 bg-opacity-70 rounded-md">
+      <div className="flex flex-col justify-center items-center min-h-screen w-screen">
+        <div className="w-80 md:w-96 p-6 mt-4 bg-slate-700 bg-opacity-70 rounded-md">
           <h1 className="text-2xl text-slate-100 font-semibold">Login</h1>
           <p className="mt-1 text-sm text-slate-100">
             Login to access your files
@@ -97,7 +97,9 @@ export default function Login() {
                   ></Field>
                 </label>
                 {errors.email && (
-                  <p className="p-1 text-sm text-red-500">{errors.email}</p>
+                  <p className="px-1 pt-1 text-sm text-red-500">
+                    {errors.email}
+                  </p>
                 )}
                 <label className=" block mt-2" htmlFor="password">
                   <p className="text-slate-100">Password</p>
@@ -114,7 +116,9 @@ export default function Login() {
                   ></Field>
                 </label>
                 {errors.password && (
-                  <p className="p-1 text-sm text-red-500">{errors.password}</p>
+                  <p className="px-1 pt-1 text-sm text-red-500">
+                    {errors.password}
+                  </p>
                 )}
                 <label className=" block mt-2" htmlFor="encryption_key">
                   <p className="text-slate-100">Encryption key</p>
@@ -131,7 +135,7 @@ export default function Login() {
                   ></Field>
                 </label>
                 {errors.encryption_key && (
-                  <p className="p-1 text-sm text-red-500">
+                  <p className="px-1 pt-1 text-sm text-red-500">
                     {errors.encryption_key}
                   </p>
                 )}
@@ -148,7 +152,7 @@ export default function Login() {
             )}
           </Formik>
         </div>
-        <div className="mt-4">
+        <div className="my-4">
           <p className=" text-base text-slate-100">
             Don't have an account?{" "}
             <button
@@ -164,4 +168,6 @@ export default function Login() {
       </div>
     </>
   );
-}
+};
+
+export default Login;

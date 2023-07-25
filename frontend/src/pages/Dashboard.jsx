@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import DoughnutCharts from "../components/DoughnutCharts";
 import FileList from "../components/FileList";
 
-export default function Dashboard() {
+const Dashboard = () => {
   const userName = useSelector((state) => state.auth.user.username);
 
   return (
@@ -21,4 +21,6 @@ export default function Dashboard() {
       </div>
     </>
   );
-}
+};
+
+export default Dashboard;

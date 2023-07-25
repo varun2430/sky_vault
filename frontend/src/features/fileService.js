@@ -1,14 +1,10 @@
 import axios from "axios";
 import { AES, enc } from "crypto-js";
 
-// development
-const API_URL = "http://localhost:5000/api/files";
-
-// production
-// const API_URL = "";
+const FILE_API_URL = import.meta.env.VITE_FILE_API_URL;
 
 export const getFiles = async (userId, token) => {
-  const response = await axios.get(API_URL + `/${userId}`, {
+  const response = await axios.get(FILE_API_URL + `/${userId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -17,7 +13,7 @@ export const getFiles = async (userId, token) => {
 };
 
 export const getObjectUrl = async (objectKey, token) => {
-  const response = await axios.get(API_URL + `/aws/${objectKey}`, {
+  const response = await axios.get(FILE_API_URL + `/aws/${objectKey}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -75,7 +71,7 @@ export const uploadFile = async (userId, file, token, encryption_key) => {
   formData.append("file", encryptedString);
   formData.append("name", file.name);
   formData.append("size", file.size);
-  const response = await axios.post(API_URL + `/${userId}`, formData, {
+  const response = await axios.post(FILE_API_URL + `/${userId}`, formData, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "multipart/form-data",
@@ -85,7 +81,7 @@ export const uploadFile = async (userId, file, token, encryption_key) => {
 };
 
 export const deleteFile = async (fileId, token) => {
-  const response = await axios.delete(API_URL + `/${fileId}`, {
+  const response = await axios.delete(FILE_API_URL + `/${fileId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

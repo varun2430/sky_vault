@@ -5,7 +5,7 @@ import { getFiles, uploadFile } from "../features/fileService";
 import { setFiles } from "../redux/slices/files";
 import File from "./File";
 
-export default function FileList() {
+const FileList = () => {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.user._id);
   const token = useSelector((state) => state.auth.token);
@@ -125,4 +125,6 @@ export default function FileList() {
       </div>
     </>
   );
-}
+};
+
+export default FileList;

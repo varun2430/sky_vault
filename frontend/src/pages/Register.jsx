@@ -37,7 +37,7 @@ const loginSchema = yup.object().shape({
     .length(32, "Encryption key must be exactly 32 characters."),
 });
 
-export default function Register() {
+const Register = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -51,9 +51,10 @@ export default function Register() {
             setLogin({
               user: loginData.user,
               token: loginData.token,
+              encryption_key: values.encryption_key,
             })
           );
-          navigate("/");
+          navigate("/dashboard");
         }
       }
     } catch (err) {
@@ -74,8 +75,8 @@ export default function Register() {
 
   return (
     <>
-      <div className="flex flex-col justify-center items-center h-screen w-screen">
-        <div className="w-80 md:w-96 p-6 bg-slate-700 bg-opacity-70 rounded-md">
+      <div className="flex flex-col justify-center items-center min-h-screen w-screen">
+        <div className="w-80 md:w-96 p-6 mt-4 bg-slate-700 bg-opacity-70 rounded-md">
           <h1 className="text-2xl text-slate-100 font-semibold">Sign Up</h1>
           <p className="mt-1 text-sm text-slate-100">
             Join now to access secure environment for your files.
@@ -112,7 +113,9 @@ export default function Register() {
                   ></Field>
                 </label>
                 {errors.username && (
-                  <p className="p-1 text-sm text-red-500">{errors.username}</p>
+                  <p className="px-1 pt-1 text-sm text-red-500">
+                    {errors.username}
+                  </p>
                 )}
                 <label className="block mt-2" htmlFor="email">
                   <p className=" text-slate-100">Email</p>
@@ -129,7 +132,9 @@ export default function Register() {
                   ></Field>
                 </label>
                 {errors.email && (
-                  <p className="p-1 text-sm text-red-500">{errors.email}</p>
+                  <p className="px-1 pt-1 text-sm text-red-500">
+                    {errors.email}
+                  </p>
                 )}
                 <label className=" block mt-2" htmlFor="password">
                   <p className="text-slate-100">Password</p>
@@ -146,7 +151,9 @@ export default function Register() {
                   ></Field>
                 </label>
                 {errors.password && (
-                  <p className="p-1 text-sm text-red-500">{errors.password}</p>
+                  <p className="px-1 pt-1 text-sm text-red-500">
+                    {errors.password}
+                  </p>
                 )}
                 <label className=" block mt-2" htmlFor="confirm">
                   <p className="text-slate-100">Confirm Password</p>
@@ -163,7 +170,9 @@ export default function Register() {
                   ></Field>
                 </label>
                 {errors.confirm && (
-                  <p className="p-1 text-sm text-red-500">{errors.confirm}</p>
+                  <p className="px-1 pt-1 text-sm text-red-500">
+                    {errors.confirm}
+                  </p>
                 )}
                 <label className=" block mt-2" htmlFor="encryption_key">
                   <p className="text-slate-100">Encryption key</p>
@@ -180,7 +189,7 @@ export default function Register() {
                   ></Field>
                 </label>
                 {errors.encryption_key && (
-                  <p className="p-1 text-sm text-red-500">
+                  <p className="px-1 pt-1 text-sm text-red-500">
                     {errors.encryption_key}
                   </p>
                 )}
@@ -197,7 +206,7 @@ export default function Register() {
             )}
           </Formik>
         </div>
-        <div className="mt-4">
+        <div className="my-4">
           <p className=" text-base text-slate-100">
             Already have an account?{" "}
             <button
@@ -213,4 +222,6 @@ export default function Register() {
       </div>
     </>
   );
-}
+};
+
+export default Register;

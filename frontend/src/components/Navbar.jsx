@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setLogout } from "../redux/slices/auth";
 
-export default function Navbar() {
+const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isAuth = Boolean(useSelector((state) => state.auth.token));
@@ -16,7 +16,12 @@ export default function Navbar() {
     <>
       <nav className="bg-gray-900">
         <div className="flex flex-wrap items-center justify-between mx-auto p-2 md:p-3">
-          <button className="flex items-center">
+          <button
+            onClick={(e) => {
+              navigate("/dashboard");
+            }}
+            className="flex items-center"
+          >
             <img src="logo.png" className="h-8 mr-3" alt="SkyVault Logo" />
             <span className="self-center text-2xl font-semibold whitespace-nowrap text-slate-100">
               SkyVault
@@ -60,7 +65,7 @@ export default function Navbar() {
                     <button
                       onClick={(e) => {
                         dispatch(setLogout());
-                        navigate("/");
+                        navigate("/login");
                       }}
                       className="text-lg font-semibold text-slate-100 hover:text-blue-800 p-1"
                     >
@@ -71,13 +76,20 @@ export default function Navbar() {
               ) : (
                 <>
                   <li>
-                    <button className="text-lg font-semibold text-slate-100 hover:text-blue-800 p-1">
+                    <button
+                      onClick={(e) => {
+                        navigate("/register");
+                      }}
+                      className="text-lg font-semibold text-slate-100 hover:text-blue-800 p-1"
+                    >
                       Sign Up
                     </button>
                   </li>
                   <li>
                     <button
-                      href="#"
+                      onClick={(e) => {
+                        navigate("/login");
+                      }}
                       className="text-lg font-semibold text-slate-100 hover:text-blue-800 p-1"
                     >
                       Login
@@ -91,4 +103,6 @@ export default function Navbar() {
       </nav>
     </>
   );
-}
+};
+
+export default Navbar;

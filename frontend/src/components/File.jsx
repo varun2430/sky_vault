@@ -3,7 +3,7 @@ import { getFiles, downloadFile, deleteFile } from "../features/fileService";
 import { setFiles } from "../redux/slices/files";
 import { toast } from "react-toastify";
 
-export default function File(props) {
+const File = (props) => {
   const userId = useSelector((state) => state.auth.user._id);
   const token = useSelector((state) => state.auth.token);
   const encryption_key = useSelector((state) => state.auth.encryption_key);
@@ -81,4 +81,6 @@ export default function File(props) {
       </div>
     </>
   );
-}
+};
+
+export default File;

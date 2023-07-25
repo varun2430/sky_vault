@@ -5,8 +5,9 @@ import "react-toastify/dist/ReactToastify.css";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Home from "./pages/Home";
 
-export default function App() {
+const App = () => {
   const isAuth = Boolean(useSelector((state) => state.auth.token));
 
   return (
@@ -25,8 +26,9 @@ export default function App() {
       />
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route
-            path="/"
+            path="/dashboard"
             element={isAuth ? <Dashboard /> : <Navigate to="/login" />}
           />
           <Route path="/login" element={<Login />} />
@@ -35,4 +37,6 @@ export default function App() {
       </BrowserRouter>
     </>
   );
-}
+};
+
+export default App;

@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 ChartJS.register(ArcElement, Tooltip, Legend, Title);
 
-export default function DoughnutCharts() {
+const DoughnutCharts = () => {
   const filesSize = useSelector((state) => state.files.filesSize);
   const filesCount = useSelector((state) => state.files.filesCount);
 
@@ -89,4 +89,6 @@ export default function DoughnutCharts() {
       </div>
     </>
   );
-}
+};
+
+export default DoughnutCharts;
