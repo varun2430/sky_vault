@@ -4,7 +4,7 @@ import {
   DeleteObjectCommand,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { v4 as uuidv4 } from "uuid";
+import crypto from "crypto";
 import { s3Client } from "../server.js";
 import File from "../models/File.js";
 
@@ -40,7 +40,7 @@ export const uploadFile = async (req, res) => {
   try {
     const { userId } = req.params;
     const timestamp = new Date().getTime();
-    const objectKey = `${timestamp}-${uuidv4().replace(/-/g, "")}`;
+    const objectKey = `${timestamp}-${crypto.randomUUID().replace(/-/g, "")}`;
     const params = {
       Bucket: process.env.S3_BUCKET,
       Key: objectKey,

@@ -1,10 +1,10 @@
 import axios from "axios";
 import { AES, enc } from "crypto-js";
 
-const FILE_API_URL = import.meta.env.VITE_FILE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const getFiles = async (userId, token) => {
-  const response = await axios.get(FILE_API_URL + `/${userId}`, {
+  const response = await axios.get(`${API_URL}/api/files/${userId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -13,7 +13,7 @@ export const getFiles = async (userId, token) => {
 };
 
 export const getObjectUrl = async (objectKey, token) => {
-  const response = await axios.get(FILE_API_URL + `/aws/${objectKey}`, {
+  const response = await axios.get(`${API_URL}/api/files/aws/${objectKey}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -71,17 +71,21 @@ export const uploadFile = async (userId, file, token, encryption_key) => {
   formData.append("file", encryptedString);
   formData.append("name", file.name);
   formData.append("size", file.size);
-  const response = await axios.post(FILE_API_URL + `/${userId}`, formData, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  const response = await axios.post(
+    `${API_URL}/api/files/${userId}`,
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
   return response.data;
 };
 
 export const deleteFile = async (fileId, token) => {
-  const response = await axios.delete(FILE_API_URL + `/${fileId}`, {
+  const response = await axios.delete(`${API_URL}/api/files/${fileId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

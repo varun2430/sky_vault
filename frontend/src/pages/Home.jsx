@@ -4,7 +4,7 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <div className=" min-h-screen flex flex-col mx-6 mb-6">
+      <div className=" min-h-screen flex flex-col mx-6 lg:mx-12 mb-6">
         <div className="mt-4 mx-4">
           <p className="text-lg md:text-xl font-semibold text-justify text-slate-100">
             Welcome to SktVault - Your Ultimate Secure Cloud Storage Solution!{" "}
@@ -17,7 +17,7 @@ const Home = () => {
         </div>
         <div className="flex flex-col md:flex-row justify-center md:justify-center items-center mt-4 md:mt-6 w-full p-2 bg-slate-700 bg-opacity-70 rounded-lg">
           <img
-            className=" object-cover md:mr-4 lg:mr-8 h-56 w-4/6 md:w-1/4"
+            className=" object-cover md:mr-4 lg:mr-8 h-56 w-5/6 md:w-1/4"
             src="client_encryption.jpg"
             alt="SkyVault Logo"
           />

@@ -85,7 +85,7 @@ const Login = () => {
                 <label className="block mt-3" htmlFor="email">
                   <p className=" text-slate-100">Email</p>
                   <Field
-                    className=" border-2 px-2 py-1 w-full text-base rounded-md focus:outline-none focus:ring-0 focus:border-blue-700 placeholder:text-gray-700 bg-gray-300"
+                    className=" border-2 px-2 py-1 w-full text-base text-black rounded-md focus:outline-none focus:ring-0 focus:border-blue-700 placeholder:text-gray-700 bg-gray-300"
                     type="email"
                     id="email"
                     name="email"
@@ -104,7 +104,7 @@ const Login = () => {
                 <label className=" block mt-2" htmlFor="password">
                   <p className="text-slate-100">Password</p>
                   <Field
-                    className=" border-2 px-2 py-1 w-full text-base rounded-md focus:outline-none focus:ring-0 focus:border-blue-700 placeholder:text-gray-700 bg-gray-300"
+                    className=" border-2 px-2 py-1 w-full text-base text-black rounded-md focus:outline-none focus:ring-0 focus:border-blue-700 placeholder:text-gray-700 bg-gray-300"
                     type="password"
                     id="password"
                     name="password"
@@ -123,7 +123,7 @@ const Login = () => {
                 <label className=" block mt-2" htmlFor="encryption_key">
                   <p className="text-slate-100">Encryption key</p>
                   <Field
-                    className=" border-2 px-2 py-1 w-full text-base rounded-md focus:outline-none focus:ring-0 focus:border-blue-700 placeholder:text-gray-700 bg-gray-300"
+                    className=" border-2 px-2 py-1 w-full text-base text-black rounded-md focus:outline-none focus:ring-0 focus:border-blue-700 placeholder:text-gray-700 bg-gray-300"
                     type="password"
                     id="encryption_key"
                     name="encryption_key"

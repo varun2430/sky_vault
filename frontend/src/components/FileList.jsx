@@ -80,7 +80,7 @@ const FileList = () => {
           id="search"
           placeholder="Search files..."
           onChange={handleSearchChange}
-          className=" col-span-2 border-2 px-2 py-1 text-base rounded-md focus:outline-none focus:ring-0 focus:border-blue-700 placeholder:text-gray-700 bg-gray-300"
+          className=" col-span-2 border-2 px-2 py-1 text-base text-black rounded-md focus:outline-none focus:ring-0 focus:border-blue-700 placeholder:text-gray-700 bg-gray-300"
         ></input>
         <input
           type="file"
