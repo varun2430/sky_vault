@@ -7,8 +7,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Varun Kadkade",
-  "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.423.0",
     "@aws-sdk/s3-request-presigner": "^3.423.0",
@@ -19,5 +17,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.5.3",
     "multer": "^1.4.5-lts.1"
-  }
+  },
+  "author": "Varun Prashant Kadkade",
+  "license": "GPL-3.0"
 }

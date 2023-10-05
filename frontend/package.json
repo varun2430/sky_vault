@@ -2,6 +2,7 @@
   "name": "sky_vault",
   "private": true,
   "version": "0.0.0",
+  "description": "sky_vault_frontend",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -35,5 +36,7 @@
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.3",
     "vite": "^4.4.10"
-  }
+  },
+  "author": "Varun Prashant Kadkade",
+  "license": "GPL-3.0"
 }
