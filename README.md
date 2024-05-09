@@ -44,6 +44,7 @@ The following are the list of frameworks/libraries used in this project.
     <img alt="Tailwind CSS" src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white">
     <img alt="Redux" src="https://img.shields.io/badge/Redux-764ABC?style=for-the-badge&logo=redux&logoColor=white">
     <img alt="Express" src="https://img.shields.io/badge/Express-404d59?style=for-the-badge&logo=express&logoColor=white">
+    <img alt="AWS" src="https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white">
 </div>
 
 ## Getting Started
